@@ -1,0 +1,14 @@
+﻿@page
+@model MusicService.Pages.SongModel
+
+@{
+    ViewData["Title"] = "Song";
+}
+
+<h1>@Model.Song.Name</h1>
+<p>@String.Join(",", Model.Song.Artists)</p>
+
+<audio controls autoplay>
+    <source src="/songs/@Model.Song.FileName" />
+    Your browser does not support the audio element.
+</audio>

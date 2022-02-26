@@ -39,9 +39,9 @@ namespace MusicService.Data
 
             var songs = new Song[]
             {
-                new Song{Name="Diamond", Artists=new HashSet<Artist>{ artists[0] }},
-                new Song{Name="Choker", Artists=new HashSet<Artist>{ artists[1] }, Album=albums[0]},
-                new Song{Name="The Outside", Artists=new HashSet<Artist>{ artists[1] }, Album=albums[0]},
+                new Song{Name="Diamond", FileName="Diamond.mp3", Artists=new HashSet<Artist>{ artists[0] }},
+                new Song{Name="Choker", FileName="Choker.mp3", Artists=new HashSet<Artist>{ artists[1] }, Album=albums[0]},
+                new Song{Name="The Outside", FileName="The Outside.mp3", Artists=new HashSet<Artist>{ artists[1] }, Album=albums[0]},
             };
             foreach (Song song in songs)
             {

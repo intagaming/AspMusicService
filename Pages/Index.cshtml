@@ -1,10 +1,20 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    <h1 class="text-3xl">Welcome</h1>
+
+    <h2>New Music</h2>
+    <div>
+@foreach (var song in Model.NewSongs)
+{
+        <div class="p-4">
+            <h3>@song.Name</h3>
+            <p>@String.Join(",", song.Artists)</p>
+        </div>
+}
+    </div>
 </div>
