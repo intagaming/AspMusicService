@@ -7,6 +7,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+    <nav>
+        <a asp-page="/Index">Home</a>
+        <form action="/Search">
+            <input type="search" id="searchinput" name="searchinput" placeholder="Search song here">
+            <input type="submit">
+        </form>
+    </nav>
+
     <main>
         @RenderBody()
     </main>
