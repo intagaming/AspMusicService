@@ -11,5 +11,6 @@ namespace MusicService.Models
         public ICollection<Artist> Artists { get; set; }
         public Album Album { get; set; }
         public ICollection<Playlist> Playlists { get; set; }
+        public ICollection<User> LikedUsers { get; set; }
     }
 }
