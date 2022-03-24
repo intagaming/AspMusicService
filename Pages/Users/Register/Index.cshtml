@@ -1,0 +1,33 @@
+﻿@page
+@model MusicService.Pages.Users.CreateModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<section>
+    <h3 class="text-white font-bold text-2xl">Welcome to Music Service</h3>
+    <p class="text-gray-200 pt-2">Sign up</p>
+</section>
+
+<section class="mt-10">
+    <form class="flex flex-col" method="post">
+        <div class="mb-6 pt-3 rounded bg-gray-200">
+            <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" asp-for="UserModel.Name" class="control-label"></label>
+            <input class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-green-600 transition duration-500 px-3 pb-3" asp-for="UserModel.Name" class="form-control" />
+            <span asp-validation-for="UserModel.Name" class="text-danger"></span>
+        </div>
+        <div class="mb-6 pt-3 rounded bg-gray-200">
+            <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" asp-for="UserModel.Username" class="control-label"></label>
+            <input class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-green-600 transition duration-500 px-3 pb-3" asp-for="UserModel.Username" class="form-control" />
+            <span asp-validation-for="UserModel.Username" class="text-danger"></span>
+        </div>
+        <div class="mb-6 pt-3 rounded bg-gray-200">
+            <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" asp-for="UserModel.Password" class="control-label"></label>
+            <input type="password" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-green-600 transition duration-500 px-3 pb-3" asp-for="UserModel.Password" class="form-control" />
+            <span asp-validation-for="UserModel.Password" class="text-danger"></span>
+        </div>
+        <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit">Sign up</button>
+    </form>
+</section>
+

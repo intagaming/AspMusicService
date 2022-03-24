@@ -5,11 +5,23 @@
     ViewData["Title"] = "Search";
 }
 
-<h1>Search</h1>
+<div class="p-5">
 
-@foreach (var item in Model.Song) {
-    <div class="p-4 cursor-pointer" onclick="window.location.href='/Song?id=@item.ID';">
-        <h3>@item.Name</h3>
-        <p>@String.Join(",", item.Artists)</p>
-    </div>
+    <h1 class="text-3xl mb-6">Search</h1>
+
+    @if (Model.Song.Count == 0)
+    {
+        <div>No song found.</div>
+    }
+
+    <div class="grid grid-cols-5 gap-4">
+@foreach (var song in Model.Song)
+{
+        <div class="p-4 cursor-pointer bg-gray-600" onclick="window.location.href='/Song?id=@song.ID';">
+            <h3>@song.Name</h3>
+            <p>@String.Join(",", song.Artists)</p>
+        </div>
 }
+    </div>
+
+</div>

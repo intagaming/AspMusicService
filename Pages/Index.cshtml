@@ -4,17 +4,24 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="">
-    <h1 class="text-3xl">Welcome @Model.Username</h1>
-    <form method="get" class="@(Model.Username == "" ? @"hidden" : @"")">
-            <button asp-page="/Logout" type="submit">Logout</button>
-    </form>
-    <a class="@(Model.Username != "" ? @"hidden" : @"")" href="/Login">Login</a>
-    <h2>New Music</h2>
-    <div>
+<div class="p-5">
+    <div class="flex justify-between mb-6">
+        <h1 class="text-3xl">Welcome @Model.Username</h1>
+        <form method="get" class="@(Model.Username == "" ? @"hidden" : @"")">
+            <button asp-page="/Logout" type="submit" class="bg-black text-white px-4 py-2 rounded-md flex items-center">
+                Logout
+            </button>
+        </form>
+        <a class="@(Model.Username != "" ? @"hidden" : @"") bg-black text-white px-4 rounded-md flex items-center" href="/Login">
+            <span>Login</span>
+        </a>
+    </div>
+
+    <h2 class="text-2xl mb-4">New Music</h2>
+    <div class="grid grid-cols-5 gap-4">
 @foreach (var song in Model.NewSongs)
 {
-        <div class="p-4 cursor-pointer" onclick="window.location.href='/Song?id=@song.ID';">
+        <div class="p-4 cursor-pointer bg-gray-600" onclick="window.location.href='/Song?id=@song.ID';">
             <h3>@song.Name</h3>
             <p>@String.Join(",", song.Artists)</p>
         </div>

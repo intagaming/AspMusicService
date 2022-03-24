@@ -38,7 +38,7 @@ namespace MusicService.Pages.Users
             _context.User.Add(UserModel);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("../Login/Index");
+            return RedirectToPage("/Login/Index");
         }
     }
 }

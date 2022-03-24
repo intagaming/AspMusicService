@@ -8,19 +8,42 @@
 </head>
 <body>
     <div class="flex h-screen">
-        <nav class="w-[15vw] bg-black text-white flex flex-col">
-            <a asp-page="/Index" class="text-2xl">Home</a>
-            <form action="/Search">
-                <input type="search" id="searchinput" name="searchinput" placeholder="Search song here">
+        <nav class="w-60 bg-black text-white flex flex-col">
+            <div class="flex gap-3 items-center p-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                <a asp-page="/Index" class="text-md font-bold">Home</a>
+            </div>
+            <form action="/Search" class="p-3">
+                <input type="search" id="searchinput" name="searchinput" placeholder="Search song here" class="text-black">
                 <input type="submit">
             </form>
+
+            <div class="flex gap-3 items-center p-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+                <a asp-page="/Index" class="text-md font-bold">Create Playlist</a>
+            </div>
+
+            <hr />
+
+            <ul class="p-3 flex flex-col gap-3">
+                <li>
+                    <a asp-page="/Index" class="text-md">Playlist 1</a>
+                </li>
+                <li>
+                    <a asp-page="/Index" class="text-md">Playlist 2</a>
+                </li>
+            </ul>
         </nav>
 
-        <main>
+        <main class="bg-neutral-700 text-white flex-1">
             @RenderBody()
         </main>
     </div>
-    
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
