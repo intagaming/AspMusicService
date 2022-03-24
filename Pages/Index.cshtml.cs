@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -15,6 +16,8 @@ namespace MusicService.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly MusicContext _context;
+        public User UserModel { get; set; }
+        public string Username => UserModel != null ? UserModel.Username : "";
 
         public IndexModel(ILogger<IndexModel> logger, MusicContext context)
         {
@@ -26,7 +29,11 @@ namespace MusicService.Pages
 
         public void OnGet()
         {
+            string username = HttpContext.Session.GetString("username");
+            UserModel = _context.User.Where(u => u.Username.Equals(username)).FirstOrDefault();
             NewSongs = _context.Songs.OrderByDescending(song => song.ID).Include(song => song.Artists).Take(5).ToList();
         }
+
+        
     }
 }

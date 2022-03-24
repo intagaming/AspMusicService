@@ -4,9 +4,12 @@
     ViewData["Title"] = "Home";
 }
 
-<div>
-    <h1 class="text-3xl">Welcome</h1>
-
+<div class="">
+    <h1 class="text-3xl">Welcome @Model.Username</h1>
+    <form method="get" class="@(Model.Username == "" ? @"hidden" : @"")">
+            <button asp-page="/Logout" type="submit">Logout</button>
+    </form>
+    <a class="@(Model.Username != "" ? @"hidden" : @"")" href="/Login">Login</a>
     <h2>New Music</h2>
     <div>
 @foreach (var song in Model.NewSongs)

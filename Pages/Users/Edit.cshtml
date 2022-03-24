@@ -1,0 +1,49 @@
+﻿@page
+@model MusicService.Pages.Users.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserModel.Id" />
+            <input type="hidden" asp-for="UserModel.Username" />
+            <input type="hidden" asp-for="UserModel.Password" />
+            <div class="form-group">
+                <label asp-for="UserModel.Name" class="control-label"></label>
+                <input asp-for="UserModel.Name" class="form-control" />
+                <span asp-validation-for="UserModel.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save Profile" class="btn btn-primary" />
+            </div>
+        </form>
+        <form method="post" asp-page-handler="changePassword">
+            <input type="hidden" asp-for="UserModel.Id" />
+            <input type="hidden" asp-for="UserModel.Name" />
+            <input type="hidden" asp-for="UserModel.Username" />
+            <div>
+                <label>New Password</label>
+                <input required name="newPass" type="password" />
+            </div>
+            <div>
+                <label>Re-type Password</label>
+                <input required name="retypePass" type="password" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Change Password" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+
+</script>
+
