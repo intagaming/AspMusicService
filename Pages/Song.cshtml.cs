@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ namespace MusicService.Pages
         }
 
         public Song Song { get; set; }
+        public List<Playlist> Playlists { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -34,6 +36,30 @@ namespace MusicService.Pages
             {
                 return NotFound();
             }
+
+            string username = HttpContext.Session.GetString("username");
+            var UserModel = _context.User.Where(u => u.Username.Equals(username)).FirstOrDefault();
+            Playlists = _context.Playlists.Where(p => p.User != null && p.User == UserModel).ToList();
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAddToPlaylistAsync(int playlistId, int songId)
+        {
+            var playlist = await _context.Playlists.Where(p => p.ID == playlistId).Include(p => p.Songs).FirstOrDefaultAsync();
+            Song = await _context.Songs.Include(song => song.Artists).FirstOrDefaultAsync(m => m.ID == songId);
+
+            string username = HttpContext.Session.GetString("username");
+            var UserModel = _context.User.Where(u => u.Username.Equals(username)).FirstOrDefault();
+            Playlists = _context.Playlists.Where(p => p.User != null && p.User == UserModel).ToList();
+
+            if (playlist == null || Song == null)
+            {
+                return Page();
+            }
+
+            playlist.Songs.Add(Song);
+            await _context.SaveChangesAsync();
             return Page();
         }
     }

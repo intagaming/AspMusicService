@@ -5,64 +5,122 @@
     ViewData["Title"] = "Song";
 }
 
-<div class="p-5">
-    <audio src="/songs/@Model.Song.FileName" preload="metadata" loop></audio>
+<div class="flex h-screen">
+    <nav class="w-60 bg-black text-white flex flex-col">
+        <div class="flex gap-3 items-center p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <a asp-page="/Index" class="text-md font-bold">Home</a>
+        </div>
+        <form action="/Search" class="p-3">
+            <input type="search" id="searchinput" name="searchinput" placeholder="Search song here" class="text-black">
+            <input type="submit">
+        </form>
 
-    <div class="bg-gray-500 shadow-lg rounded-lg" style="width: 45rem !important;">
-        <div class="flex">
-            <div class="w-full p-8">
-                <div class="flex justify-between">
-                    <div>
-                        <h3 class="text-2xl text-grey-darkest font-medium">@Model.Song.Name</h3>
-                        <p class="text-sm text-grey mt-1">@String.Join(",", Model.Song.Artists)</p>
-                    </div>
-                    <div class="text-red-lighter">
-                        <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 3.22l-.61-.6a5.5 5.5 0 0 0-7.78 7.77L10 18.78l8.39-8.4a5.5 5.5 0 0 0-7.78-7.77l-.61.61z" /></svg>
+        <div class="flex gap-3 items-center p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            <a asp-page="/Index" class="text-md font-bold">Create Playlist</a>
+        </div>
+
+        <hr />
+
+        <ul class="p-3 flex flex-col gap-3">
+            @foreach (var playlist in Model.Playlists)
+            {
+                <li>
+                    <a href="/Playlists?id=@playlist.ID" class="text-md">@playlist.Name</a>
+                </li>
+            }
+        </ul>
+    </nav>
+
+    <main class="bg-neutral-700 text-white flex-1">
+        <div class="p-5">
+            <audio src="/songs/@Model.Song.FileName" preload="metadata" loop></audio>
+
+            <div class="bg-gray-500 shadow-lg rounded-lg" style="width: 45rem !important;">
+                <div class="flex">
+                    <div class="w-full p-8">
+                        <div class="flex justify-between">
+                            <div>
+                                <h3 class="text-2xl text-grey-darkest font-medium">@Model.Song.Name</h3>
+                                <p class="text-sm text-grey mt-1">@String.Join(",", Model.Song.Artists)</p>
+                            </div>
+                            <div class="text-red-lighter">
+                                <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 3.22l-.61-.6a5.5 5.5 0 0 0-7.78 7.77L10 18.78l8.39-8.4a5.5 5.5 0 0 0-7.78-7.77l-.61.61z" /></svg>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 mt-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                            </svg>
+                            <input type="range" id="volume-slider" max="100" value="100" class="w-24">
+                        </div>
+                        <div class="flex justify-between items-center mt-8">
+                            <div class="text-grey-darker">
+                                <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M6.59 12.83L4.4 15c-.58.58-1.59 1-2.4 1H0v-2h2c.29 0 .8-.2 1-.41l2.17-2.18 1.42 1.42zM16 4V1l4 4-4 4V6h-2c-.29 0-.8.2-1 .41l-2.17 2.18L9.4 7.17 11.6 5c.58-.58 1.59-1 2.41-1h2zm0 10v-3l4 4-4 4v-3h-2c-.82 0-1.83-.42-2.41-1l-8.6-8.59C2.8 6.21 2.3 6 2 6H0V4h2c.82 0 1.83.42 2.41 1l8.6 8.59c.2.2.7.41.99.41h2z" /></svg>
+                            </div>
+                            <div class="text-grey-darker">
+                                <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M4 5h3v10H4V5zm12 0v10l-9-5 9-5z" /></svg>
+                            </div>
+                            <button id="play-button" class="text-black p-8 rounded-full bg-white shadow-lg">
+                                <svg id="pause-icon" class="w-8 h-8 hidden" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" /></svg>
+                                <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                            <div class="text-grey-darker">
+                                <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 5h3v10h-3V5zM4 5l9 5-9 5V5z" /></svg>
+                            </div>
+                            <div class="text-grey-darker">
+                                <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5 4a2 2 0 0 0-2 2v6H0l4 4 4-4H5V6h7l2-2H5zm10 4h-3l4-4 4 4h-3v6a2 2 0 0 1-2 2H6l2-2h7V8z" /></svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="flex gap-3 mt-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                    </svg>
-                    <input type="range" id="volume-slider" max="100" value="100" class="w-24">
-                </div>
-                <div class="flex justify-between items-center mt-8">
-                    <div class="text-grey-darker">
-                        <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M6.59 12.83L4.4 15c-.58.58-1.59 1-2.4 1H0v-2h2c.29 0 .8-.2 1-.41l2.17-2.18 1.42 1.42zM16 4V1l4 4-4 4V6h-2c-.29 0-.8.2-1 .41l-2.17 2.18L9.4 7.17 11.6 5c.58-.58 1.59-1 2.41-1h2zm0 10v-3l4 4-4 4v-3h-2c-.82 0-1.83-.42-2.41-1l-8.6-8.59C2.8 6.21 2.3 6 2 6H0V4h2c.82 0 1.83.42 2.41 1l8.6 8.59c.2.2.7.41.99.41h2z" /></svg>
+                <div class="mx-8 py-4">
+                    <div class="flex justify-between text-sm text-grey-darker">
+                        <p id="current-time">0:00</p>
+                        <p id="duration">0:00</p>
                     </div>
-                    <div class="text-grey-darker">
-                        <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M4 5h3v10H4V5zm12 0v10l-9-5 9-5z" /></svg>
-                    </div>
-                    <button id="play-button" class="text-black p-8 rounded-full bg-white shadow-lg">
-                        <svg id="pause-icon" class="w-8 h-8 hidden" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" /></svg>
-                        <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
-                    <div class="text-grey-darker">
-                        <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 5h3v10h-3V5zM4 5l9 5-9 5V5z" /></svg>
-                    </div>
-                    <div class="text-grey-darker">
-                        <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5 4a2 2 0 0 0-2 2v6H0l4 4 4-4H5V6h7l2-2H5zm10 4h-3l4-4 4 4h-3v6a2 2 0 0 1-2 2H6l2-2h7V8z" /></svg>
+                    <div class="mt-1">
+                        <div class="h-6 bg-grey-dark rounded-full">
+                            <input type="range" id="seek-slider" max="100" value="0" class="w-full">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="mx-8 py-4">
-            <div class="flex justify-between text-sm text-grey-darker">
-                <p id="current-time">0:00</p>
-                <p id="duration">0:00</p>
-            </div>
-            <div class="mt-1">
-                <div class="h-6 bg-grey-dark rounded-full">
-                    <input type="range" id="seek-slider" max="100" value="0" class="w-full">
-                </div>
-            </div>
-        </div>
-    </div>
+
+        @if (Model.Playlists.Count > 0)
+        {
+        <form id="addToPlaylistForm" asp-page-handler="AddToPlaylist" method="post">
+            <input type="hidden" id="songId" name="songId" value="@Model.Song.ID" />
+            <label for="playlistId">Add to playlist</label>
+            <select id="playlistId" name="playlistId" onchange="addToPlaylist()" class="text-black">
+                <option value="">-- Select --</option>
+                @foreach (var playlist in Model.Playlists)
+                {
+                    <option value="@playlist.ID">@playlist.Name</option>
+                }
+            </select>
+        </form>
+        }
+    </main>
 </div>
 
+
+
 <script>
+    const addToPlaylist = () => {
+        if (document.getElementById("playlistId").value === "") return;
+        document.getElementById("addToPlaylistForm").submit();
+    }
+
+    // Audio player
     const playIcon = document.getElementById('play-icon');
     const pauseIcon = document.getElementById('pause-icon');
     const playIconContainer = document.getElementById('play-button');

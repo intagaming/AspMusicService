@@ -1,8 +1,10 @@
 ﻿@page
-@model IndexModel
+@model MusicService.Pages.Playlists.DetailsModel
+
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Details";
 }
+
 
 <div class="flex h-screen">
     <nav class="w-60 bg-black text-white flex flex-col">
@@ -37,31 +39,42 @@
     </nav>
 
     <main class="bg-neutral-700 text-white flex-1">
-        <div class="p-5">
-            <div class="flex justify-between mb-6">
-                <h1 class="text-3xl">Welcome @Model.Username</h1>
-                <form method="get" class="@(Model.Username == "" ? @"hidden" : @"")">
-                    <button asp-page="/Logout" type="submit" class="bg-black text-white px-4 py-2 rounded-md flex items-center">
-                        Logout
-                    </button>
-                </form>
-                <a class="@(Model.Username != "" ? @"hidden" : @"") bg-black text-white px-4 rounded-md flex items-center" href="/Login">
-                    <span>Login</span>
-                </a>
+<h1>Details</h1>
+
+<div>
+    <h4>Playlist</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Playlist.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Playlist.Name)
+        </dd>
+    </dl>
+
+    <div class="grid grid-cols-5 gap-4 my-6">
+    @foreach (var song in Model.Playlist.Songs)
+    {
+        <div class="flex flex-col bg-gray-600">
+            <div class="p-4 cursor-pointer bg-gray-600" onclick="window.location.href='/Song?id=@song.ID';">
+                <h3>@song.Name</h3>
+                <p>@String.Join(",", song.Artists)</p>
             </div>
 
-            <h2 class="text-2xl mb-4">New Music</h2>
-            <div class="grid grid-cols-5 gap-4">
-        @foreach (var song in Model.NewSongs)
-        {
-                <div class="p-4 cursor-pointer bg-gray-600" onclick="window.location.href='/Song?id=@song.ID';">
-                    <h3>@song.Name</h3>
-                    <p>@String.Join(",", song.Artists)</p>
-                </div>
-        }
-            </div>
+            <form asp-page-handler="RemoveFromPlaylist" method="post">
+                <input type="hidden" name="playlistId" value="@Model.Playlist.ID" />
+                <input type="hidden" name="songId" value="@song.ID" />
+                <button type="submit" class="bg-red-600 p-2 rounded-md">Remove from Playlist</button>
+            </form>
         </div>
+    }
+    </div>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Playlist.ID">Edit</a> |
+    <a asp-page="./Delete" asp-route-id="@Model.Playlist.ID">Delete</a>
+</div>
     </main>
 </div>
-
 

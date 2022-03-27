@@ -1,7 +1,8 @@
 ﻿@page
-@model IndexModel
+@model MusicService.Pages.Playlists.DeleteModel
+
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Delete";
 }
 
 <div class="flex h-screen">
@@ -37,31 +38,27 @@
     </nav>
 
     <main class="bg-neutral-700 text-white flex-1">
-        <div class="p-5">
-            <div class="flex justify-between mb-6">
-                <h1 class="text-3xl">Welcome @Model.Username</h1>
-                <form method="get" class="@(Model.Username == "" ? @"hidden" : @"")">
-                    <button asp-page="/Logout" type="submit" class="bg-black text-white px-4 py-2 rounded-md flex items-center">
-                        Logout
-                    </button>
-                </form>
-                <a class="@(Model.Username != "" ? @"hidden" : @"") bg-black text-white px-4 rounded-md flex items-center" href="/Login">
-                    <span>Login</span>
-                </a>
-            </div>
+<h1>Delete</h1>
 
-            <h2 class="text-2xl mb-4">New Music</h2>
-            <div class="grid grid-cols-5 gap-4">
-        @foreach (var song in Model.NewSongs)
-        {
-                <div class="p-4 cursor-pointer bg-gray-600" onclick="window.location.href='/Song?id=@song.ID';">
-                    <h3>@song.Name</h3>
-                    <p>@String.Join(",", song.Artists)</p>
-                </div>
-        }
-            </div>
-        </div>
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Playlist</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Playlist.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Playlist.Name)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Playlist.ID" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index" asp-route-id="@Model.Playlist.ID">Back to Playlist</a>
+    </form>
+</div>
     </main>
 </div>
-
 

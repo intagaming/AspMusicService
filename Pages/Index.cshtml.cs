@@ -26,12 +26,14 @@ namespace MusicService.Pages
         }
 
         public List<Song> NewSongs { get; set; }
+        public List<Playlist> Playlists { get; set; }
 
         public void OnGet()
         {
             string username = HttpContext.Session.GetString("username");
             UserModel = _context.User.Where(u => u.Username.Equals(username)).FirstOrDefault();
             NewSongs = _context.Songs.OrderByDescending(song => song.ID).Include(song => song.Artists).Take(5).ToList();
+            Playlists = _context.Playlists.Where(p => p.User != null && p.User == UserModel).ToList();
         }
 
         

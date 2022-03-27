@@ -5,23 +5,59 @@
     ViewData["Title"] = "Search";
 }
 
-<div class="p-5">
-
-    <h1 class="text-3xl mb-6">Search</h1>
-
-    @if (Model.Song.Count == 0)
-    {
-        <div>No song found.</div>
-    }
-
-    <div class="grid grid-cols-5 gap-4">
-@foreach (var song in Model.Song)
-{
-        <div class="p-4 cursor-pointer bg-gray-600" onclick="window.location.href='/Song?id=@song.ID';">
-            <h3>@song.Name</h3>
-            <p>@String.Join(",", song.Artists)</p>
+<div class="flex h-screen">
+    <nav class="w-60 bg-black text-white flex flex-col">
+        <div class="flex gap-3 items-center p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <a asp-page="/Index" class="text-md font-bold">Home</a>
         </div>
-}
-    </div>
+        <form action="/Search" class="p-3">
+            <input type="search" id="searchinput" name="searchinput" placeholder="Search song here" class="text-black">
+            <input type="submit">
+        </form>
 
+        <div class="flex gap-3 items-center p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            <a asp-page="/Index" class="text-md font-bold">Create Playlist</a>
+        </div>
+
+        <hr />
+
+        <ul class="p-3 flex flex-col gap-3">
+            @foreach (var playlist in Model.Playlists)
+            {
+                <li>
+                    <a href="/Playlists?id=@playlist.ID" class="text-md">@playlist.Name</a>
+                </li>
+            }
+        </ul>
+    </nav>
+
+    <main class="bg-neutral-700 text-white flex-1">
+        <div class="p-5">
+
+            <h1 class="text-3xl mb-6">Search</h1>
+
+            @if (Model.Song.Count == 0)
+            {
+                <div>No song found.</div>
+            }
+
+            <div class="grid grid-cols-5 gap-4">
+        @foreach (var song in Model.Song)
+        {
+                <div class="p-4 cursor-pointer bg-gray-600" onclick="window.location.href='/Song?id=@song.ID';">
+                    <h3>@song.Name</h3>
+                    <p>@String.Join(",", song.Artists)</p>
+                </div>
+        }
+            </div>
+
+        </div>
+    </main>
 </div>
+

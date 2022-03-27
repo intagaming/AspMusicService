@@ -1,8 +1,10 @@
 ﻿@page
-@model IndexModel
+@model MusicService.Pages.Playlists.CreateModel
+
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Create";
 }
+
 
 <div class="flex h-screen">
     <nav class="w-60 bg-black text-white flex flex-col">
@@ -37,31 +39,29 @@
     </nav>
 
     <main class="bg-neutral-700 text-white flex-1">
-        <div class="p-5">
-            <div class="flex justify-between mb-6">
-                <h1 class="text-3xl">Welcome @Model.Username</h1>
-                <form method="get" class="@(Model.Username == "" ? @"hidden" : @"")">
-                    <button asp-page="/Logout" type="submit" class="bg-black text-white px-4 py-2 rounded-md flex items-center">
-                        Logout
-                    </button>
-                </form>
-                <a class="@(Model.Username != "" ? @"hidden" : @"") bg-black text-white px-4 rounded-md flex items-center" href="/Login">
-                    <span>Login</span>
-                </a>
-            </div>
+<h1>Create</h1>
 
-            <h2 class="text-2xl mb-4">New Music</h2>
-            <div class="grid grid-cols-5 gap-4">
-        @foreach (var song in Model.NewSongs)
-        {
-                <div class="p-4 cursor-pointer bg-gray-600" onclick="window.location.href='/Song?id=@song.ID';">
-                    <h3>@song.Name</h3>
-                    <p>@String.Join(",", song.Artists)</p>
-                </div>
-        }
+<h4>Playlist</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Playlist.Name" class="control-label"></label>
+                <input asp-for="Playlist.Name" class="text-black" />
+                <span asp-validation-for="Playlist.Name" class="text-danger"></span>
             </div>
-        </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
     </main>
 </div>
 
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
