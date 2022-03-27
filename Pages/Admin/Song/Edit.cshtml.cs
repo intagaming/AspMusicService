@@ -28,20 +28,34 @@ namespace MusicService.Pages.Admin.Song
         [BindProperty]
         public Models.Song Song { get; set; }
         [BindProperty]
+        public string Artist { get; set; }
+        [BindProperty]
         public IFormFile MusicFile { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            string role = HttpContext.Session.GetString("role");
+            if (role == "user")
+            {
+                return RedirectToPage("/Login/Index");
+            }
             if (id == null)
             {
                 return NotFound();
             }
 
-            Song = await _context.Songs.FirstOrDefaultAsync(m => m.ID == id);
+            Song = await _context.Songs.Include(s => s.Artists).FirstOrDefaultAsync(m => m.ID == id);
 
             if (Song == null)
             {
                 return NotFound();
+            }
+            ICollection<Artist> Artists = Song.Artists;
+            Artist firstArtist = Artists.FirstOrDefault();
+
+            if(firstArtist != null)
+            {
+                Artist = firstArtist.Name;
             }
             return Page();
         }
@@ -54,17 +68,37 @@ namespace MusicService.Pages.Admin.Song
             {
                 return Page();
             }
+            var SongFromDb = _context.Songs.Where(s => s.ID == Song.ID).Include(a => a.Artists).FirstOrDefault();
 
             if (MusicFile != null)
             {
                 var fileName = $"{Song.ID}-{MusicFile.FileName}";
                 var path = Path.Combine(_env.ContentRootPath, "wwwroot/songs", fileName);
+                var fileExt = Path.GetExtension(path);
+                if (fileExt != ".mp3" && fileExt != ".mp4")
+                {
+                    return Page();
+                }
                 using var fs = new FileStream(path, FileMode.Create);
                 await MusicFile.CopyToAsync(fs);
-                Song.FileName = fileName;
+                SongFromDb.FileName = fileName;
+            }
+            SongFromDb.Artists.Clear();
+            string artistName = Artist;
+            var existedArtist = _context.Artists.Where(x => x.Name.ToLower() == artistName.ToLower().Trim()).FirstOrDefault();
+            if (existedArtist != null)
+            {
+                SongFromDb.Artists.Add(existedArtist);
+            }
+            else
+            {
+                Artist newArtist = new Models.Artist { Name = artistName };
+                _context.Artists.Add(newArtist);
+                await _context.SaveChangesAsync();
+                SongFromDb.Artists.Add(newArtist);
             }
 
-            _context.Attach(Song).State = EntityState.Modified;
+            //_context.Attach(Song).State = EntityState.Modified;
 
             try
             {

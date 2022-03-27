@@ -29,7 +29,9 @@ namespace MusicService.Pages
                 return Page();
             }
             HttpContext.Session.SetString("username", username);
+            HttpContext.Session.SetString("role", user.IsAdmin ?"admin":"user");
 
+            if (user.IsAdmin) return RedirectToPage("/Admin/Song/Index");
             return RedirectToPage("../Index");
         }
     }

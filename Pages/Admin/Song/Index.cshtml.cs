@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -21,9 +22,15 @@ namespace MusicService.Pages.Admin.Song
 
         public IList<Models.Song> Song { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-            Song = await _context.Songs.ToListAsync();
+            string role = HttpContext.Session.GetString("role");
+            if(role == "user")
+            {
+                return RedirectToPage("/Login/Index");
+            }
+            Song = await _context.Songs.Include(a => a.Artists).ToListAsync();
+            return Page();
         }
     }
 }

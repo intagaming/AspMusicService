@@ -32,7 +32,7 @@ namespace MusicService.Pages
         {
             string username = HttpContext.Session.GetString("username");
             UserModel = _context.User.Where(u => u.Username.Equals(username)).FirstOrDefault();
-            NewSongs = _context.Songs.OrderByDescending(song => song.ID).Include(song => song.Artists).Take(5).ToList();
+            NewSongs = _context.Songs.OrderByDescending(song => song.ID).Include(song => song.Artists).ToList();
             Playlists = _context.Playlists.Where(p => p.User != null && p.User == UserModel).ToList();
         }
 

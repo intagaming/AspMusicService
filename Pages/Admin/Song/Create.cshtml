@@ -4,27 +4,31 @@
 @{
     ViewData["Title"] = "Create";
 }
+<div class="bg-gradient-to-tr from-purple-500 to-pink-500 h-full flex justify-center items-center">
+<div class="bg-emerald-300 p-8 text-2xl rounded-md">
+<h1 class="mb-5 text-3xl">Add Song</h1>
 
-<h1>Create</h1>
-
-<h4>Song</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post" enctype="multipart/form-data">
+<div class="text-blue-600">
+    <div class="">
+        <form method="post" enctype="multipart/form-data" class="flex flex-col gap-2">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="">
                 <label asp-for="Song.Name" class="control-label"></label>
-                <input asp-for="Song.Name" class="form-control" />
+                <input asp-for="Song.Name" class="rounded-md" required/>
                 <span asp-validation-for="Song.Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="">
                 <label asp-for="MusicFile" class="control-label"></label>
-                <input asp-for="MusicFile" class="form-control" />
+                <input asp-for="MusicFile" accept=".mp4, .mp3" required/>
                 <span asp-validation-for="MusicFile" class="text-danger"></span>
             </div>
+            <div class="">
+                <label asp-for="Artist" class="control-label"></label>
+                <input asp-for="Artist" class="rounded-md" required/>
+                <span asp-validation-for="Artist" class="text-danger"></span>
+            </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="rounded-full px-2 bg-blue-200" />
             </div>
         </form>
     </div>
@@ -33,7 +37,8 @@
 <div>
     <a asp-page="Index">Back to List</a>
 </div>
-
+</div>
+</div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

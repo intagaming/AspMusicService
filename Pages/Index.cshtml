@@ -44,6 +44,9 @@
                     <button asp-page="/Logout" type="submit" class="bg-black text-white px-4 py-2 rounded-md flex items-center">
                         Logout
                     </button>
+                    <button asp-page="/Users/Edit" type="submit" class="bg-black text-white px-4 py-2 rounded-md flex items-center">
+                        Profile
+                    </button>
                 </form>
                 <a class="@(Model.Username != "" ? @"hidden" : @"") bg-black text-white px-4 rounded-md flex items-center" href="/Login">
                     <span>Login</span>

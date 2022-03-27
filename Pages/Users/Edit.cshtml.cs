@@ -23,6 +23,8 @@ namespace MusicService.Pages.Users
 
         [BindProperty]
         public User UserModel { get; set; }
+        public List<Song> NewSongs { get; set; }
+        public List<Playlist> Playlists { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -37,6 +39,7 @@ namespace MusicService.Pages.Users
             {
                 return NotFound();
             }
+            Playlists = _context.Playlists.Where(p => p.User != null && p.User == UserModel).ToList();
             return Page();
         }
 
@@ -66,7 +69,7 @@ namespace MusicService.Pages.Users
                     throw;
                 }
             }
-
+            Playlists = _context.Playlists.Where(p => p.User != null && p.User == UserModel).ToList();
             return Page();
         }
 
@@ -77,6 +80,9 @@ namespace MusicService.Pages.Users
 
         public IActionResult OnPostChangePassword(string newPass, string retypePass)
         {
+            string username = HttpContext.Session.GetString("username");
+            UserModel = _context.User.FirstOrDefault(m => m.Username == username);
+            Playlists = _context.Playlists.Where(p => p.User != null && p.User == UserModel).ToList();
             if (newPass != retypePass) return RedirectToPage();
             UserModel.Password = newPass;
             _context.Attach(UserModel).State = EntityState.Modified;

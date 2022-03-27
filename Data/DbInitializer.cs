@@ -15,7 +15,17 @@ namespace MusicService.Data
                 return;
             }
 
-
+            var users = new User[]
+            {
+                new User{ Name = "hoang duc", Password="12345678", IsAdmin=false, Username="duc"},
+                new User{ Name = "xuan an", Password = "12345678", IsAdmin =false, Username="an"},
+                new User{ Name = "nguyen van admin", Password="12345678", IsAdmin =true, Username="admin"}
+            };
+            foreach (User user in users)
+            {
+                context.User.Add(user);
+            }
+            context.SaveChanges();
             var artists = new Artist[]
             {
                 new Artist{Name="Lil Wuyn"},
